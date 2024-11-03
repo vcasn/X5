@@ -134,7 +134,7 @@ li a:after {
 	top: -35px;	
 	right: 0px;
 }
-.table-wrapper{
+.table-wrapper {
     margin: 10px 70px 70px;
     position: relative;
     left: 140px;
@@ -165,17 +165,31 @@ li a:after {
 
 .fl-table thead th {
     color: #ffffff;
-    background: #4FC3A1;
+    background: #131418;
 }
-
 
 .fl-table thead th:nth-child(odd) {
     color: #ffffff;
-    background: #324960;
+    background: rgb(118, 118, 118);
 }
 
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
+}
+
+th:first-child {
+    border-top-left-radius: 6px;
+}
+
+th:nth-child(7) {
+    border-top-right-radius: 6px;
+}
+
+/* Efeito de hover para todas as linhas */
+.fl-table tr:hover td {
+    background-color: rgb(169, 169, 169); /* Cor de fundo ao passar o mouse */
+    transition: background-color 0.3s ease; /* Suaviza a transição */
+    cursor: pointer;
 }
 
 /* Responsive */
@@ -246,6 +260,7 @@ li a:after {
     color: rgba(83, 82, 237,1.0);
     background-color: rgba(206, 214, 224,1.0);
 }
+
 .player {
 	padding: 12px;
 	font-family: var(--family);
