@@ -96,6 +96,7 @@ li {
 	float: left;
 	left: 400px;
 	top: -31px;
+	z-index: 1;
 }
 li a {
 	display: block;
@@ -138,6 +139,7 @@ li a:after {
     margin: 10px 70px 70px;
     position: relative;
     left: 140px;
+    top: -35px;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 }
 
