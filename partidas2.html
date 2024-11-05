@@ -105,73 +105,73 @@ ordem de critérios de desempate:<br>
 <div id="img1" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 13">
-  <div class="caption">Partida 1</div>
+  <div class="caption">Partida 13</div>
 </div>
 
 <div id="img2" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 14">
-  <div class="caption">Partida 2</div>
+  <div class="caption">Partida 14</div>
 </div>
 
 <div id="img3" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 15">
-  <div class="caption">Partida 3</div>
+  <div class="caption">Partida 15</div>
 </div>
 
 <div id="img4" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 16">
-  <div class="caption">Partida 4</div>
+  <div class="caption">Partida 16</div>
 </div>
 
 <div id="img5" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 17">
-  <div class="caption">Partida 5</div>
+  <div class="caption">Partida 17</div>
 </div>
 
 <div id="img6" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 18">
-  <div class="caption">Partida 6</div>
+  <div class="caption">Partida 18</div>
 </div>
 
 <div id="img7" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 19">
-  <div class="caption">Partida 7</div>
+  <div class="caption">Partida 19</div>
 </div>
 
 <div id="img8" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 20">
-  <div class="caption">Partida 8</div>
+  <div class="caption">Partida 20</div>
 </div>
 
 <div id="img9" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 21">
-  <div class="caption">Partida 9</div>
+  <div class="caption">Partida 21</div>
 </div>
 
 <div id="img10" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 22">
-  <div class="caption">Partida 10</div>
+  <div class="caption">Partida 22</div>
 </div>
 
 <div id="img11" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 23">
-  <div class="caption">Partida 11</div>
+  <div class="caption">Partida 23</div>
 </div>
 
 <div id="img12" class="modal">
   <a href="#" class="close">&times;</a>
   <img src="jogos/default.png" alt="Partida 24">
-  <div class="caption">Partida 12</div>
+  <div class="caption">Partida 24</div>
 </div>
     <div class="button-container">
         <a href="partidas.html" class="page-btn">1</a>
@@ -180,6 +180,34 @@ ordem de critérios de desempate:<br>
         <a href="" class="page-btn">4</a>
     </div>
 </div>
+<script>
+document.addEventListener('keydown', function(event) {
+  // Lista de IDs dos modals
+  const modalIds = [
+    "img1", "img2", "img3", "img4", "img5", "img6",
+    "img7", "img8", "img9", "img10", "img11", "img12"
+  ];
+  
+  // Obtém o modal atualmente aberto
+  const currentModal = modalIds.find(id => window.location.hash === '#' + id);
+  
+  if (currentModal) {
+    let currentIndex = modalIds.indexOf(currentModal);
 
+    if (event.key === 'ArrowRight') {
+      // Passa para a próxima imagem
+      const nextIndex = (currentIndex + 1) % modalIds.length;
+      window.location.hash = '#' + modalIds[nextIndex];
+    } else if (event.key === 'ArrowLeft') {
+      // Passa para a imagem anterior
+      const prevIndex = (currentIndex - 1 + modalIds.length) % modalIds.length;
+      window.location.hash = '#' + modalIds[prevIndex];
+    } else if (event.key === 'Escape') {
+      // Fecha o modal
+      window.location.hash = '';
+    }
+  }
+});
+</script>
 </body>
 </html>
