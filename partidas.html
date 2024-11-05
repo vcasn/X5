@@ -180,6 +180,34 @@ ordem de critérios de desempate:<br>
         <a href="" class="page-btn">4</a>
     </div>
 </div>
+<script>
+document.addEventListener('keydown', function(event) {
+  // Lista de IDs dos modals
+  const modalIds = [
+    "img1", "img2", "img3", "img4", "img5", "img6",
+    "img7", "img8", "img9", "img10", "img11", "img12"
+  ];
+  
+  // Obtém o modal atualmente aberto
+  const currentModal = modalIds.find(id => window.location.hash === '#' + id);
+  
+  if (currentModal) {
+    let currentIndex = modalIds.indexOf(currentModal);
 
+    if (event.key === 'ArrowRight') {
+      // Passa para a próxima imagem
+      const nextIndex = (currentIndex + 1) % modalIds.length;
+      window.location.hash = '#' + modalIds[nextIndex];
+    } else if (event.key === 'ArrowLeft') {
+      // Passa para a imagem anterior
+      const prevIndex = (currentIndex - 1 + modalIds.length) % modalIds.length;
+      window.location.hash = '#' + modalIds[prevIndex];
+    } else if (event.key === 'Escape') {
+      // Fecha o modal
+      window.location.hash = '';
+    }
+  }
+});
+</script>
 </body>
 </html>
