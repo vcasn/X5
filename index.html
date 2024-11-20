@@ -298,20 +298,26 @@ function substituirUltimosJogos() {
 
 // Função para ordenar a tabela com base no winrate
 function ordenarTabela() {
-    const tabela = document.querySelector("#dataTable tbody");
-    
-    if (!tabela) return;
-    const linhas = Array.from(tabela.rows);
+    const tabela = document.querySelector(".fl-table");
+    const linhas = Array.from(tabela.rows).slice(1); // Pular a linha de cabeçalho
 
     linhas.sort((a, b) => {
-        const winrateA = parseFloat(a.cells[6].textContent.replace('%', ''));
-        const winrateB = parseFloat(b.cells[6].textContent.replace('%', ''));
-        return winrateB - winrateA;
+        const valorA = parseFloat(a.cells[6].innerText.replace('%', ''));
+        const valorB = parseFloat(b.cells[6].innerText.replace('%', ''));
+        
+        // Primeira prioridade: ordenar por porcentagem do 7º TH
+        if (valorA !== valorB) return valorB - valorA;
+        
+        // Segunda prioridade (em caso de empate): ordenar pelo valor do 3º TH
+        const valorA3 = parseFloat(a.cells[2].innerText);
+        const valorB3 = parseFloat(b.cells[2].innerText);
+        return valorB3 - valorA3;
     });
 
+    // Reordenar a tabela com as linhas classificadas
     linhas.forEach(linha => tabela.appendChild(linha));
 }
-
+  
 // Função para remover jogadores com menos de 5 partidas
 function removerJogadoresComBaixoTH() {
     const tabela = document.querySelector("#dataTable tbody");
