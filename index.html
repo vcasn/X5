@@ -304,15 +304,6 @@ function ordenarTabela() {
     linhas.sort((a, b) => {
         const valorA = parseFloat(a.cells[6].innerText.replace('%', ''));
         const valorB = parseFloat(b.cells[6].innerText.replace('%', ''));
-        
-        // Primeira prioridade: ordenar por porcentagem do 7º TH
-        if (valorA !== valorB) return valorB - valorA;
-        
-        // Segunda prioridade (em caso de empate): ordenar pelo valor do 3º TH
-        const valorA3 = parseFloat(a.cells[2].innerText);
-        const valorB3 = parseFloat(b.cells[2].innerText);
-        return valorB3 - valorA3;
-    });
 }
   
 // Função para remover jogadores com menos de 5 partidas
