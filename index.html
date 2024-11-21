@@ -296,16 +296,26 @@ function substituirUltimosJogos() {
     });
 }
 
-// Função para ordenar a tabela com base no winrate
+// Função para ordenar a tabela com base no winrate, com desempate pelo dano aos objetivos
 function ordenarTabela() {
     const tabela = document.querySelector("#dataTable tbody");
     if (!tabela) return;
+
     const linhas = Array.from(tabela.rows);
     linhas.sort((a, b) => {
         const winrateA = parseFloat(a.cells[6].textContent.replace('%', ''));
         const winrateB = parseFloat(b.cells[6].textContent.replace('%', ''));
-        return winrateB - winrateA;
+        
+        // Se os winrates forem iguais, desempatar pelo dano aos objetivos
+        if (winrateA === winrateB) {
+            const danoA = parseFloat(a.cells[2].textContent.replace('.', '').replace(',', '.'));
+            const danoB = parseFloat(b.cells[2].textContent.replace('.', '').replace(',', '.'));
+            return danoB - danoA; // Ordena em ordem decrescente de dano
+        }
+
+        return winrateB - winrateA; // Ordena em ordem decrescente de winrate
     });
+
     linhas.forEach(linha => tabela.appendChild(linha));
 }
   
