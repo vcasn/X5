@@ -481,3 +481,7 @@ td:nth-child(1) {
 	margin-right: 5px;
 	opacity: 0.9;
 }
+.filtro-ativo {
+    border-bottom: 2px solid rgba(116, 185, 255,1.0); /* Linha inferior para destaque */
+    cursor: pointer;
+}
