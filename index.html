@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -274,12 +272,14 @@ ordem de critérios de desempate:<br>
 // Função para substituir os valores na coluna "Últ. Jogos" por bolinhas
 function substituirUltimosJogos() {
     const tabela = document.querySelector("#dataTable tbody");
+    
     if (!tabela) return;
 
     const linhas = tabela.querySelectorAll("tr");
 
     linhas.forEach(linha => {
         const celula = linha.cells[7]; // Seleciona a coluna "Últ. Jogos"
+        
         if (celula) {
             const valores = celula.textContent.trim().split(" ");
             celula.innerHTML = "";
@@ -297,46 +297,40 @@ function substituirUltimosJogos() {
     });
 }
 
-// Função para ordenar a tabela com base no índice de uma coluna
-function ordenarTabelaPorColuna(indiceColuna, isNumeric = true) {
+// Função para ordenar a tabela inicialmente com base no winrate e dano aos objetivos
+function ordenarTabelaInicialmente() {
     const tabela = document.querySelector("#dataTable tbody");
     if (!tabela) return;
 
     const linhas = Array.from(tabela.rows);
     linhas.sort((a, b) => {
-        let valorA = a.cells[indiceColuna].textContent.trim();
-        let valorB = b.cells[indiceColuna].textContent.trim();
+        const winrateA = parseFloat(a.cells[6].textContent.replace('%', ''));
+        const winrateB = parseFloat(b.cells[6].textContent.replace('%', ''));
 
-        // Processa valores numéricos, se necessário
-        if (isNumeric) {
-            valorA = parseFloat(valorA.replace(',', '.')) || 0; // Substitui ',' por '.'
-            valorB = parseFloat(valorB.replace(',', '.')) || 0; // Substitui ',' por '.'
+        if (winrateA === winrateB) {
+            const danoA = parseFloat(a.cells[2].textContent.replace(',', '.'));
+            const danoB = parseFloat(b.cells[2].textContent.replace(',', '.'));
+            return danoB - danoA;
         }
 
-        return valorB - valorA; // Ordem decrescente
+        return winrateB - winrateA;
     });
 
     linhas.forEach(linha => tabela.appendChild(linha));
 }
 
-// Função para ordenar inicialmente por winrate, com desempate pelo dano aos objetivos
-function ordenarInicialmentePorWinrateEDano() {
+// Função para ordenar a tabela com base na coluna clicada
+function ordenarTabelaPorColuna(colunaIndex) {
     const tabela = document.querySelector("#dataTable tbody");
     if (!tabela) return;
 
     const linhas = Array.from(tabela.rows);
+
     linhas.sort((a, b) => {
-        const winrateA = parseFloat(a.cells[6].textContent.replace('%', '').replace(',', '.'));
-        const winrateB = parseFloat(b.cells[6].textContent.replace('%', '').replace(',', '.'));
+        const valorA = parseFloat(a.cells[colunaIndex].textContent.replace(',', '.'));
+        const valorB = parseFloat(b.cells[colunaIndex].textContent.replace(',', '.'));
 
-        // Se os winrates forem iguais, desempatar pelo dano aos objetivos
-        if (winrateA === winrateB) {
-            const danoA = parseFloat(a.cells[2].textContent.replace(',', '.'));
-            const danoB = parseFloat(b.cells[2].textContent.replace(',', '.'));
-            return danoB - danoA; // Ordena em ordem decrescente de dano
-        }
-
-        return winrateB - winrateA; // Ordena em ordem decrescente de winrate
+        return valorB - valorA;
     });
 
     linhas.forEach(linha => tabela.appendChild(linha));
@@ -358,22 +352,32 @@ function removerJogadoresComBaixoTH() {
     });
 }
 
-// Adicionar eventos de clique nos cabeçalhos para ordenação
-function adicionarEventosDeOrdenacao() {
-    const cabeçalhos = document.querySelectorAll("#dataTable thead th");
+// Adicionar evento para destacar o filtro ativo
+function adicionarEfeitoFiltroAtivo() {
+    const filtros = document.querySelectorAll("#dataTable thead th");
 
-    // Adiciona eventos apenas nas colunas específicas
-    cabeçalhos[2].addEventListener("click", () => ordenarTabelaPorColuna(2, true)); // Dano aos Objetivos
-    cabeçalhos[3].addEventListener("click", () => ordenarTabelaPorColuna(3, true)); // Placar de Visão
-    cabeçalhos[6].addEventListener("click", () => ordenarTabelaPorColuna(6, true)); // Winrate
+    filtros.forEach((filtro, index) => {
+        if ([2, 3, 6].includes(index)) { // Índices das colunas clicáveis
+            filtro.addEventListener("click", () => {
+                // Remove o destaque de todos os filtros
+                filtros.forEach(f => f.classList.remove("filtro-ativo"));
+
+                // Adiciona o destaque ao filtro clicado
+                filtro.classList.add("filtro-ativo");
+
+                // Ordena a tabela com base na coluna clicada
+                ordenarTabelaPorColuna(index);
+            });
+        }
+    });
 }
 
-// Executar funções após o carregamento da página
-document.addEventListener('DOMContentLoaded', () => {
+// Executar tudo após o carregamento da página
+document.addEventListener("DOMContentLoaded", () => {
     removerJogadoresComBaixoTH();
-    ordenarInicialmentePorWinrateEDano(); // Ordenação inicial
+    ordenarTabelaInicialmente();
     substituirUltimosJogos();
-    adicionarEventosDeOrdenacao(); // Habilitar ordenação por clique
+    adicionarEfeitoFiltroAtivo();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
